@@ -1,28 +1,19 @@
-name: Node.js CI (on PR with !codebuild)
+name: Node.js CI (triggered by !codebuild comment)
 
 on:
-  pull_request:
-    branches: [ main ]
+  issue_comment:
+    types: [created]
 
 jobs:
   test:
+    # コメントがPRに対するもので、かつ内容に !codebuild が含まれているときだけ実行
+    if: |
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '!codebuild')
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check PR message for !codebuild
-        id: check_pr
-        run: |
-          echo "PR Body: ${{ github.event.pull_request.body }}"
-          if echo "${{ github.event.pull_request.body }}" | grep -q "!codebuild"; then
-            echo "should_run=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_run=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Skip test if !codebuild not found
-        if: steps.check_pr.outputs.should_run != 'true'
-        run: echo "PR message does not contain !codebuild. Skipping test." && exit 0
-
       - name: Check out code
         uses: actions/checkout@v4
 
