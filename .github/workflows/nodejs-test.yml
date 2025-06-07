@@ -1,13 +1,17 @@
-name: Node.js CI (on PR with !codebuild)
+name: Node.js CI (triggered by !codebuild comment)
 
 on:
-  pull_request:
+  issue_comment:
+    types: [created]
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    # コメントがPRに対するもので、かつ内容に !codebuild が含まれているときだけ実行
+    if: |
+      github.event.issue.pull_request &&
+      contains(github.event.comment.body, '!codebuild')
 
-    if: contains(github.event.pull_request.body, '!codebuild')
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
