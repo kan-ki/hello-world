@@ -2,27 +2,14 @@ name: Node.js CI (on PR with !codebuild)
 
 on:
   pull_request:
-    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
+    if: contains(github.event.pull_request.body, '!codebuild')
+
     steps:
-      - name: Check PR message for !codebuild
-        id: check_pr
-        run: |
-          echo "PR Body: ${{ github.event.pull_request.body }}"
-          if echo "${{ github.event.pull_request.body }}" | grep -q "!codebuild"; then
-            echo "should_run=true" >> $GITHUB_OUTPUT
-          else
-            echo "should_run=false" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Skip test if !codebuild not found
-        if: steps.check_pr.outputs.should_run != 'true'
-        run: echo "PR message does not contain !codebuild. Skipping test." && exit 0
-
       - name: Check out code
         uses: actions/checkout@v4
 
