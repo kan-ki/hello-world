@@ -23,11 +23,14 @@
     "array-bracket-spacing": ["error", "never"],
     "keyword-spacing": "error",
     "space-before-blocks": "error",
-    "space-before-function-paren": ["error", {
-      "anonymous": "always",
-      "named": "never",
-      "asyncArrow": "always"
-    }],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "always",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
     "arrow-spacing": "error",
     "prefer-const": "error",
     "prefer-arrow-callback": "error",
