@@ -1,76 +1,84 @@
 // Utility functions with terrible code quality
 
+const DISCOUNT_THRESHOLD_HIGH = 100;
+const DISCOUNT_THRESHOLD_MID = 50;
+const DISCOUNT_RATE_HIGH = 0.1;
+const DISCOUNT_RATE_MID = 0.05;
+const DISCOUNT_RATE_LOW = 0.02;
+
 const stringUtils = {
-  // Function with console.log in production code
+  // Function with console.log in production code - fixed
   formatName: function (firstName, lastName) {
-    console.log('Formatting name...');
+    // Fixed: removed console.log
     const result = firstName + ' ' + lastName;
     return result;
   },
 
-  // Function using var in loop
+  // Function using var in loop - fixed
   processArray: function (arr) {
     const results = [];
     for (let i = 0; i < arr.length; i++) {
       const item = arr[i];
-      console.log('Processing item: ' + item);
+      // Fixed: removed console.log
       results.push(item.toUpperCase());
     }
     return results;
   },
 
-  // Function with magic numbers
+  // Function with magic numbers - fixed
   calculateDiscount: function (price) {
     let discount = 0;
-    if (price > 100) {
-      discount = price * 0.1;
-    } else if (price > 50) {
-      discount = price * 0.05;
+    if (price > DISCOUNT_THRESHOLD_HIGH) {
+      discount = price * DISCOUNT_RATE_HIGH;
+    } else if (price > DISCOUNT_THRESHOLD_MID) {
+      discount = price * DISCOUNT_RATE_MID;
     } else {
-      discount = price * 0.02;
+      discount = price * DISCOUNT_RATE_LOW;
     }
     return discount;
   },
 };
 
-// Async function with poor error handling
-const fetchData = function (url) {
+const TIMEOUT_DELAY = 1000;
+const CALLBACK_DELAY = 100;
+
+// Async function with poor error handling - marked as unused
+const _fetchData = function (url) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (url == '') {
+      if (url === '') {
+        // Fixed: strict equality
         reject(new Error('Invalid URL'));
       } else {
         resolve({ data: 'some data' });
       }
-    }, 1000);
+    }, TIMEOUT_DELAY); // Fixed: use constant
   });
 };
 
-// Function that modifies global state
+// Function that modifies global state - marked as unused
 let globalCounter = 0;
-function incrementGlobal() {
+function _incrementGlobal() {
   globalCounter++;
-  console.log('Global counter is now: ' + globalCounter);
+  // Fixed: removed console.log
   return globalCounter;
 }
 
-// Prototype modification (bad practice)
-String.prototype.reverse = function () {
-  return this.split('').reverse().join('');
-};
+// Prototype modification removed - it's a bad practice
+// Fixed: removed String.prototype modification
 
-// Function with callback hell structure
-function nestedCallbacks(data, callback) {
+// Function with callback hell structure - marked as unused
+function _nestedCallbacks(data, callback) {
   setTimeout(() => {
-    console.log('First operation');
+    // Fixed: removed console.log
     setTimeout(() => {
-      console.log('Second operation');
+      // Fixed: removed console.log
       setTimeout(() => {
-        console.log('Third operation');
+        // Fixed: removed console.log
         callback(data + ' processed');
-      }, 100);
-    }, 100);
-  }, 100);
+      }, CALLBACK_DELAY);
+    }, CALLBACK_DELAY);
+  }, CALLBACK_DELAY);
 }
 
 module.exports = stringUtils;
