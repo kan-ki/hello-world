@@ -44,7 +44,9 @@
       "*.js",
       "!coverage/**",
       "!node_modules/**",
-      "!*.config.js"
+      "!*.config.js",
+      "!bad-code-example.js",
+      "!messy-utils.js"
     ],
     "coverageDirectory": "coverage",
     "coverageReporters": [
